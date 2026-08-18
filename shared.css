@@ -1,0 +1,110 @@
+/* Milduna — feuille de style partagée pour les pages légales / conformité */
+:root {
+  --bg: #FBF9F4;
+  --card: #FFFFFF;
+  --ink: #16213E;
+  --ink-soft: #5B6178;
+  --mint: #00A87E;
+  --coral: #D14848;
+  --violet: #6C63FF;
+  --border: #E7E2D6;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0E1326;
+    --card: #171D36;
+    --ink: #F5F1E6;
+    --ink-soft: #A7ACC4;
+    --mint: #2BF0C2;
+    --coral: #FF7A6E;
+    --violet: #9089FF;
+    --border: #2A3155;
+  }
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+.page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+.top-nav {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 28px; flex-wrap: wrap;
+}
+.top-nav .brand {
+  display: flex; align-items: center; gap: 8px;
+  font-weight: 800; font-size: 1.1rem; text-decoration: none; color: var(--ink);
+}
+
+/* ---------- Marque Milduna (remplace le carre degrade .logo-dot) ----------
+   L'ancien reperage etait un simple carre menthe-violet de 28 px, faute de logo : c'est le
+   « carre bleu » visible en haut de chaque page. La marque le remplace, a la meme taille. */
+.top-nav .logo-mark {
+  width: 28px; height: 28px; border-radius: 8px;
+  flex-shrink: 0; display: block;
+}
+
+.top-nav .logo-dot {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: linear-gradient(135deg, var(--mint), var(--violet));
+  flex-shrink: 0;
+}
+.top-nav .back-link {
+  margin-left: auto;
+  font-size: 0.9rem; color: var(--ink-soft); text-decoration: none;
+}
+.top-nav .back-link:hover { color: var(--mint); }
+h1 { font-size: 1.6rem; margin: 0 0 6px; }
+h2 { font-size: 1.2rem; margin: 36px 0 10px; border-top: 1px solid var(--border); padding-top: 20px; }
+h2:first-of-type { border-top: none; padding-top: 0; }
+h3 { font-size: 1.02rem; margin: 20px 0 8px; color: var(--ink); }
+p, li { color: var(--ink); }
+.subtitle { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 28px; }
+.updated { color: var(--ink-soft); font-size: 0.85rem; }
+a { color: var(--mint); }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.92rem; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { color: var(--ink-soft); font-weight: 600; }
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px 20px; margin: 16px 0;
+}
+.badge {
+  display: inline-block; font-size: 0.78rem; font-weight: 700;
+  padding: 3px 10px; border-radius: 999px; margin-right: 6px;
+}
+.badge-mint { background: color-mix(in srgb, var(--mint) 18%, transparent); color: var(--mint); }
+.badge-coral { background: color-mix(in srgb, var(--coral) 18%, transparent); color: var(--coral); }
+.badge-violet { background: color-mix(in srgb, var(--violet) 18%, transparent); color: var(--violet); }
+.todo {
+  border: 1px dashed var(--coral); background: color-mix(in srgb, var(--coral) 8%, transparent);
+  border-radius: 10px; padding: 10px 14px; font-size: 0.88rem; color: var(--coral); margin: 10px 0;
+}
+.footer-links {
+  margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border);
+  display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.85rem;
+}
+.footer-links a { color: var(--ink-soft); text-decoration: none; }
+.footer-links a:hover { color: var(--mint); }
+button, .btn {
+  font: inherit; cursor: pointer; border: none; border-radius: 12px;
+  padding: 13px 20px; font-weight: 700; font-size: 0.95rem;
+}
+.btn-primary { background: var(--mint); color: #06251C; }
+.btn-danger { background: var(--coral); color: #2B0A0A; }
+.btn-secondary { background: transparent; border: 1px solid var(--border); color: var(--ink); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+input[type="email"], input[type="password"] {
+  width: 100%; padding: 12px 14px; border-radius: 10px;
+  border: 1px solid var(--border); background: var(--bg); color: var(--ink);
+  font-size: 0.95rem; margin-bottom: 10px;
+}
