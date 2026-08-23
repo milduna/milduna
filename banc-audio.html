@@ -1,0 +1,912 @@
+<title>Banc audio Milduna</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=IBM+Plex+Mono:wght@400;600&display=swap">
+
+<style>
+  /* Jetons repris tels quels de app_gen.css : ce banc doit ressembler a Milduna, pas a un
+     outil de passage. Clair par defaut, sombre redefini deux fois (systeme + bascule). */
+  :root {
+    --bg: #FBF9F4;
+    --bg-soft: #F3EEE1;
+    --surface: #FFFFFF;
+    --ink: #16213E;
+    --ink-muted: #5B6478;
+    --ink-faint: #7A8194;
+    --border: #E7E0CF;
+    --hair: rgba(22, 33, 62, .07);
+    --mint: #00AF83;
+    --mint-wash: rgba(0, 200, 150, .12);
+    --coral: #D14848;
+    --coral-wash: rgba(232, 93, 93, .14);
+    --amber: #D98B14;
+    --amber-wash: rgba(217, 139, 20, .16);
+    --navy: #182B49;
+    --on-navy: #FBF9F4;
+    --elev: 0 10px 26px -20px rgba(22, 33, 62, .5);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E1326;
+      --bg-soft: #171E38;
+      --surface: #171E38;
+      --ink: #F5F1E6;
+      --ink-muted: #ABB1CB;
+      --ink-faint: #8B92AE;
+      --border: #2B3455;
+      --hair: rgba(255, 255, 255, .09);
+      --mint: #4FD5B0;
+      --mint-wash: rgba(79, 213, 176, .14);
+      --coral: #F08A8A;
+      --coral-wash: rgba(240, 138, 138, .15);
+      --amber: #E8B45C;
+      --amber-wash: rgba(232, 180, 92, .16);
+      --navy: #F5F1E6;
+      --on-navy: #0E1326;
+      --elev: 0 10px 26px -20px #000;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E1326;
+    --bg-soft: #171E38;
+    --surface: #171E38;
+    --ink: #F5F1E6;
+    --ink-muted: #ABB1CB;
+    --ink-faint: #8B92AE;
+    --border: #2B3455;
+    --hair: rgba(255, 255, 255, .09);
+    --mint: #4FD5B0;
+    --mint-wash: rgba(79, 213, 176, .14);
+    --coral: #F08A8A;
+    --coral-wash: rgba(240, 138, 138, .15);
+    --amber: #E8B45C;
+    --amber-wash: rgba(232, 180, 92, .16);
+    --navy: #F5F1E6;
+    --on-navy: #0E1326;
+    --elev: 0 10px 26px -20px #000;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .wrap {
+    max-width: 33rem;
+    margin: 0 auto;
+    padding: 28px 18px 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* ---------- entete ---------- */
+  .lede { display: flex; flex-direction: column; gap: 10px; }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: .72rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(1.6rem, 6vw, 2.1rem);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -.02em;
+    text-wrap: balance;
+  }
+  .sub { margin: 0; color: var(--ink-muted); font-size: .95rem; }
+
+  /* ---------- consigne ---------- */
+  .consigne {
+    background: var(--navy);
+    color: var(--on-navy);
+    border-radius: 20px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .consigne h2 {
+    margin: 0;
+    font-size: .95rem;
+    font-weight: 800;
+    letter-spacing: .01em;
+  }
+  .consigne ol { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 4px; }
+  .consigne li { font-size: .88rem; opacity: .88; }
+
+  /* ---------- releve ---------- */
+  .releve {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 14px 16px;
+    box-shadow: var(--elev);
+  }
+  .releve h2 {
+    margin: 0 0 10px;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: .7rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 600;
+  }
+  .releve dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: .78rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .releve dt, .releve dd {
+    margin: 0;
+    padding: 7px 0;
+    border-top: 1px solid var(--hair);
+    min-width: 0;
+  }
+  .releve dt:first-of-type, .releve dl > dt:first-child + dd { border-top: 0; }
+  .releve dt { color: var(--ink-muted); }
+  .releve dd { text-align: right; word-break: break-word; font-weight: 600; }
+  .ua { font-size: .7rem; font-weight: 400; color: var(--ink-muted); }
+  .oui { color: var(--mint); }
+  .non { color: var(--coral); }
+
+  /* ---------- epreuves ---------- */
+  .epreuve {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--border);
+    border-radius: 18px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: var(--elev);
+    transition: border-left-color .22s cubic-bezier(.22, .9, .3, 1);
+  }
+  .epreuve[data-verdict="oui"] { border-left-color: var(--mint); }
+  .epreuve[data-verdict="non"] { border-left-color: var(--coral); }
+  .epreuve[data-verdict="na"]  { border-left-color: var(--amber); }
+
+  .tete { display: flex; align-items: baseline; gap: 10px; }
+  .rang {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .epreuve h3 {
+    margin: 0;
+    font-size: 1.02rem;
+    font-weight: 800;
+    letter-spacing: -.01em;
+    text-wrap: balance;
+  }
+  .prouve { margin: 0; font-size: .86rem; color: var(--ink-muted); }
+  .prouve code {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: .82em;
+    background: var(--bg-soft);
+    padding: 1px 5px;
+    border-radius: 6px;
+  }
+
+  button {
+    font: inherit;
+    cursor: pointer;
+    border: 0;
+    border-radius: 14px;
+    transition: transform .12s cubic-bezier(.22, .9, .3, 1), background .22s, border-color .22s;
+  }
+  button:active { transform: scale(.97); }
+  button:focus-visible { outline: 3px solid var(--mint); outline-offset: 2px; }
+
+  .jouer {
+    background: var(--navy);
+    color: var(--on-navy);
+    font-weight: 700;
+    font-size: .98rem;
+    min-height: 52px;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .jouer[disabled] { opacity: .5; cursor: not-allowed; }
+  .jouer .onde {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    height: 16px;
+  }
+  .jouer .onde i {
+    display: block;
+    width: 3px;
+    height: 5px;
+    border-radius: 2px;
+    background: currentColor;
+    opacity: .55;
+  }
+  .jouer.is-playing .onde i { animation: onde .7s ease-in-out infinite; }
+  .jouer.is-playing .onde i:nth-child(2) { animation-delay: .12s; }
+  .jouer.is-playing .onde i:nth-child(3) { animation-delay: .24s; }
+  .jouer.is-playing .onde i:nth-child(4) { animation-delay: .36s; }
+  @keyframes onde { 0%, 100% { height: 5px; } 50% { height: 16px; opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .jouer.is-playing .onde i { animation: none; height: 11px; opacity: 1; }
+    button:active { transform: none; }
+    .epreuve { transition: none; }
+  }
+
+  .reponse { display: flex; gap: 10px; }
+  .reponse button {
+    flex: 1;
+    min-height: 46px;
+    background: var(--bg-soft);
+    color: var(--ink-muted);
+    border: 1px solid var(--border);
+    font-weight: 700;
+    font-size: .9rem;
+  }
+  .reponse button[aria-pressed="true"][data-rep="oui"] {
+    background: var(--mint-wash);
+    border-color: var(--mint);
+    color: var(--mint);
+  }
+  .reponse button[aria-pressed="true"][data-rep="non"] {
+    background: var(--coral-wash);
+    border-color: var(--coral);
+    color: var(--coral);
+  }
+
+  .trace {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: .74rem;
+    color: var(--ink-faint);
+    margin: 0;
+    word-break: break-word;
+  }
+
+  /* ---------- verdict ---------- */
+  .verdict {
+    border-radius: 20px;
+    padding: 18px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .verdict h2 {
+    margin: 0;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: .7rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 600;
+  }
+  .verdict-titre { margin: 0; font-size: 1.1rem; font-weight: 800; text-wrap: balance; }
+  .verdict-corps { margin: 0; font-size: .9rem; color: var(--ink-muted); }
+  .verdict[data-etat="mint"] { background: var(--mint-wash); border-color: var(--mint); }
+  .verdict[data-etat="coral"] { background: var(--coral-wash); border-color: var(--coral); }
+  .verdict[data-etat="amber"] { background: var(--amber-wash); border-color: var(--amber); }
+
+  textarea {
+    width: 100%;
+    min-height: 150px;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: .74rem;
+    line-height: 1.5;
+    background: var(--surface);
+    color: var(--ink);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px;
+    resize: vertical;
+  }
+  .copier {
+    background: var(--navy);
+    color: var(--on-navy);
+    font-weight: 700;
+    min-height: 46px;
+    padding: 0 16px;
+  }
+
+  footer {
+    font-size: .78rem;
+    color: var(--ink-faint);
+    border-top: 1px solid var(--hair);
+    padding-top: 14px;
+  }
+  footer a { color: inherit; }
+</style>
+
+<div class="wrap">
+
+  <header class="lede">
+    <span class="eyebrow">Diagnostic · son en mode silencieux</span>
+    <h1>Pourquoi Milduna se tait</h1>
+    <p class="sub">Sept épreuves à faire <strong>téléphone en silencieux</strong>, dans l'ordre.
+      Chacune emprunte un chemin audio différent : c'est la comparaison entre elles, et non le
+      résultat isolé de l'une, qui désigne la cause.</p>
+  </header>
+
+  <section class="consigne">
+    <h2>Avant de commencer</h2>
+    <ol>
+      <li>Mets le téléphone en silencieux, comme quand Milduna reste muette.</li>
+      <li>Monte le volume <em>média</em> (pas la sonnerie) à mi-course.</li>
+      <li>Enlève le casque et les écouteurs Bluetooth.</li>
+      <li>Ne change plus rien jusqu'à la fin des sept épreuves.</li>
+    </ol>
+  </section>
+
+  <section class="releve" aria-label="Relevé de l'appareil">
+    <h2>Relevé</h2>
+    <dl id="releve"></dl>
+  </section>
+
+  <section class="epreuve" id="ep-1" data-verdict="">
+    <div class="tete"><span class="rang">01</span>
+      <h3>Une autre app, au même instant</h3></div>
+    <p class="prouve">Le témoin. Ouvre YouTube ou Spotify sans toucher au silencieux, lance
+      quelques secondes, reviens. S'il n'y a rien là non plus, c'est le canal média du téléphone
+      qui est coupé et aucune ligne de code ne le rouvrira.</p>
+    <div class="reponse" role="group" aria-label="Résultat épreuve 1">
+      <button type="button" data-ep="1" data-rep="oui" aria-pressed="false">J'entends</button>
+      <button type="button" data-ep="1" data-rep="non" aria-pressed="false">Rien</button>
+    </div>
+  </section>
+
+  <section class="epreuve" id="ep-2" data-verdict="">
+    <div class="tete"><span class="rang">02</span>
+      <h3>Le bip de Milduna</h3></div>
+    <p class="prouve">Exactement le chemin des sons de l'app : un oscillateur Web Audio, comme
+      <code>SFX.play()</code>. Un LA d'une seconde.</p>
+    <button type="button" class="jouer" data-jouer="webaudio">
+      <span class="onde" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      Jouer le bip Web Audio
+    </button>
+    <p class="trace" id="trace-2">—</p>
+    <div class="reponse" role="group" aria-label="Résultat épreuve 2">
+      <button type="button" data-ep="2" data-rep="oui" aria-pressed="false">J'entends</button>
+      <button type="button" data-ep="2" data-rep="non" aria-pressed="false">Rien</button>
+    </div>
+  </section>
+
+  <section class="epreuve" id="ep-3" data-verdict="">
+    <div class="tete"><span class="rang">03</span>
+      <h3>Le même bip, en lecteur média</h3></div>
+    <p class="prouve">Le son identique, mais joué par une balise <code>&lt;audio&gt;</code>. C'est
+      l'épreuve qui sépare tout : sur iPhone, un lecteur média échappe à l'interrupteur Silence,
+      pas Web Audio.</p>
+    <button type="button" class="jouer" data-jouer="element">
+      <span class="onde" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      Jouer le bip &lt;audio&gt;
+    </button>
+    <p class="trace" id="trace-3">—</p>
+    <div class="reponse" role="group" aria-label="Résultat épreuve 3">
+      <button type="button" data-ep="3" data-rep="oui" aria-pressed="false">J'entends</button>
+      <button type="button" data-ep="3" data-rep="non" aria-pressed="false">Rien</button>
+    </div>
+  </section>
+
+  <section class="epreuve" id="ep-4" data-verdict="">
+    <div class="tete"><span class="rang">04</span>
+      <h3>La voix qui prononce les mots</h3></div>
+    <p class="prouve">La synthèse vocale, celle de la leçon. La trace dit si le moteur a
+      <em>vraiment</em> parlé : une voix qui démarre et se termine sans qu'on l'entende, c'est un
+      problème de sortie, pas de moteur.</p>
+    <button type="button" class="jouer" data-jouer="voix">
+      <span class="onde" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      Faire parler la voix
+    </button>
+    <p class="trace" id="trace-4">—</p>
+    <div class="reponse" role="group" aria-label="Résultat épreuve 4">
+      <button type="button" data-ep="4" data-rep="oui" aria-pressed="false">J'entends</button>
+      <button type="button" data-ep="4" data-rep="non" aria-pressed="false">Rien</button>
+    </div>
+  </section>
+
+  <section class="epreuve" id="ep-5" data-verdict="">
+    <div class="tete"><span class="rang">05</span>
+      <h3>Le correctif, en direct</h3></div>
+    <p class="prouve">Déclare <code>audioSession.type = "playback"</code> — « ceci est de la
+      lecture, pas du décor » — puis rejoue le bip sur un contexte <em>neuf</em> : un contexte
+      déjà interrompu ne revient pas. <strong>Sans valeur si la page tourne dans un cadre</strong>
+      (voir le relevé) : la session audio n'y appartient pas. Et si tu entends quelque chose ici
+      alors que la trace dit « refusée », ce n'est pas la déclaration qui opère : c'est le lecteur
+      média de l'épreuve 03 qui a déjà promu la session. Le verdict fait la différence.</p>
+    <button type="button" class="jouer" data-jouer="correctif">
+      <span class="onde" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      Déclarer « playback » et rejouer
+    </button>
+    <p class="trace" id="trace-5">—</p>
+    <div class="reponse" role="group" aria-label="Résultat épreuve 5">
+      <button type="button" data-ep="5" data-rep="oui" aria-pressed="false">J'entends</button>
+      <button type="button" data-ep="5" data-rep="non" aria-pressed="false">Rien</button>
+    </div>
+  </section>
+
+  <section class="epreuve" id="ep-6" data-verdict="">
+    <div class="tete"><span class="rang">06</span>
+      <h3>La boucle silencieuse</h3></div>
+    <p class="prouve">L'autre voie, celle que ton épreuve 03 désigne : puisqu'un lecteur média
+      passe, en faire tourner un en boucle — du silence pur — promeut la session de toute la page,
+      et devrait emmener Web Audio avec elle. Puis le même bip qu'en 02.</p>
+    <button type="button" class="jouer" data-jouer="promotion">
+      <span class="onde" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      Lancer la boucle, puis le bip
+    </button>
+    <p class="trace" id="trace-6">—</p>
+    <div class="reponse" role="group" aria-label="Résultat épreuve 6">
+      <button type="button" data-ep="6" data-rep="oui" aria-pressed="false">J'entends</button>
+      <button type="button" data-ep="6" data-rep="non" aria-pressed="false">Rien</button>
+    </div>
+  </section>
+
+  <section class="epreuve" id="ep-7" data-verdict="">
+    <div class="tete"><span class="rang">07</span>
+      <h3>La voix, boucle toujours en marche</h3></div>
+    <p class="prouve">La question qui décide pour la leçon : la promotion emmène-t-elle aussi la
+      synthèse vocale, ou seulement les bips ? À faire juste après 06, sans rien toucher.</p>
+    <button type="button" class="jouer" data-jouer="voixpromue">
+      <span class="onde" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      Refaire parler la voix
+    </button>
+    <p class="trace" id="trace-7">—</p>
+    <div class="reponse" role="group" aria-label="Résultat épreuve 7">
+      <button type="button" data-ep="7" data-rep="oui" aria-pressed="false">J'entends</button>
+      <button type="button" data-ep="7" data-rep="non" aria-pressed="false">Rien</button>
+    </div>
+  </section>
+
+  <section class="verdict" id="verdict" data-etat="">
+    <h2>Verdict</h2>
+    <p class="verdict-titre" id="verdict-titre">Les sept épreuves ne sont pas faites</p>
+    <p class="verdict-corps" id="verdict-corps">Réponds à chaque épreuve : le verdict se calcule
+      tout seul à partir de la combinaison.</p>
+    <button type="button" class="copier" id="copier">Copier le rapport</button>
+    <textarea id="rapport" readonly aria-label="Rapport à copier"></textarea>
+  </section>
+
+  <footer>
+    Banc de mesure joint à l'enquête sur le son de Milduna. Rien n'est envoyé nulle part : tout se
+    calcule dans la page, le rapport ne part que si tu le copies toi-même.
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var reponses = { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null };
+  var traces = { 2: '—', 3: '—', 4: '—', 5: '—', 6: '—', 7: '—' };
+  // Une page dans un cadre d'une autre origine ne partage pas la session audio de la page hote :
+  // l'epreuve 05 y est sans valeur, et il faut le dire plutot que de conclure a tort.
+  var dansCadre = (function () { try { return window.top !== window.self; } catch (e) { return true; } })();
+
+  // ---------- releve de l'appareil ----------
+  function plateforme() {
+    var ua = navigator.userAgent;
+    var m;
+    if (/iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) {
+      m = ua.match(/OS (\d+)[_.](\d+)/);
+      return 'iOS ' + (m ? m[1] + '.' + m[2] : '?');
+    }
+    if (/Android/.test(ua)) {
+      m = ua.match(/Android (\d+(?:\.\d+)?)/);
+      var wv = /; wv\)/.test(ua) ? ' · WebView' : '';
+      return 'Android ' + (m ? m[1] : '?') + wv;
+    }
+    return navigator.platform || 'inconnu';
+  }
+
+  function ligne(dl, cle, val, classe) {
+    var dt = document.createElement('dt');
+    dt.textContent = cle;
+    var dd = document.createElement('dd');
+    dd.textContent = val;
+    if (classe) dd.className = classe;
+    dl.appendChild(dt);
+    dl.appendChild(dd);
+  }
+
+  var aSession = ('audioSession' in navigator);
+  var AC = window.AudioContext || window.webkitAudioContext;
+
+  function remplirReleve() {
+    var dl = document.getElementById('releve');
+    dl.textContent = '';
+    ligne(dl, 'Plateforme', plateforme());
+    ligne(dl, 'audioSession', aSession ? 'oui' : 'non', aSession ? 'oui' : 'non');
+    if (aSession) {
+      var t = '?';
+      try { t = String(navigator.audioSession.type); } catch (e) { t = 'illisible'; }
+      ligne(dl, 'type de session', t);
+    }
+    ligne(dl, 'dans un cadre', dansCadre ? 'oui' : 'non', dansCadre ? 'non' : 'oui');
+    ligne(dl, 'Web Audio', AC ? 'oui' : 'non', AC ? 'oui' : 'non');
+    ligne(dl, 'synthèse vocale', ('speechSynthesis' in window) ? 'oui' : 'non',
+      ('speechSynthesis' in window) ? 'oui' : 'non');
+    var nb = 0;
+    try { nb = window.speechSynthesis.getVoices().length; } catch (e) { nb = 0; }
+    ligne(dl, 'voix disponibles', String(nb));
+    var dt = document.createElement('dt');
+    dt.textContent = 'signature';
+    var dd = document.createElement('dd');
+    dd.className = 'ua';
+    dd.textContent = navigator.userAgent;
+    dl.appendChild(dt);
+    dl.appendChild(dd);
+  }
+  remplirReleve();
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.onvoiceschanged = remplirReleve;
+  }
+
+  // ---------- fabrique de sons ----------
+  var ctx = null;
+  function contexte() {
+    if (!ctx && AC) { try { ctx = new AC(); } catch (e) { ctx = null; } }
+    if (ctx && ctx.state === 'suspended') { try { ctx.resume(); } catch (e) {} }
+    return ctx;
+  }
+
+  function bipWebAudio(secondes) {
+    var c = contexte();
+    if (!c) return 'aucun contexte audio';
+    var t0 = c.currentTime;
+    var osc = c.createOscillator();
+    var gain = c.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(440, t0);
+    gain.gain.setValueAtTime(0.0001, t0);
+    gain.gain.exponentialRampToValueAtTime(0.35, t0 + 0.03);
+    gain.gain.setValueAtTime(0.35, t0 + secondes - 0.05);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + secondes);
+    osc.connect(gain).connect(c.destination);
+    osc.start(t0);
+    osc.stop(t0 + secondes + 0.02);
+    return 'contexte ' + c.state + ' · ' + Math.round(c.sampleRate) + ' Hz · gain 0,35';
+  }
+
+  // WAV fabrique a la volee : meme note, meme duree, autre chemin de sortie.
+  var wavURI = null;
+  function wav(freq, secondes, taux) {
+    var n = Math.floor(taux * secondes);
+    var buf = new ArrayBuffer(44 + n * 2);
+    var v = new DataView(buf);
+    function txt(o, s) { for (var i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); }
+    txt(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); txt(8, 'WAVE'); txt(12, 'fmt ');
+    v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+    v.setUint32(24, taux, true); v.setUint32(28, taux * 2, true);
+    v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+    txt(36, 'data'); v.setUint32(40, n * 2, true);
+    for (var i = 0; i < n; i++) {
+      var t = i / taux;
+      var env = Math.min(1, t * 30, (secondes - t) * 30);
+      v.setInt16(44 + i * 2, Math.round(Math.sin(2 * Math.PI * freq * t) * 0.35 * env * 32767), true);
+    }
+    var oct = new Uint8Array(buf), bin = '';
+    for (var j = 0; j < oct.length; j++) bin += String.fromCharCode(oct[j]);
+    return 'data:audio/wav;base64,' + btoa(bin);
+  }
+
+  var lecteur = null;
+  function bipElement() {
+    if (!wavURI) wavURI = wav(440, 1, 22050);
+    if (!lecteur) { lecteur = new Audio(); lecteur.preload = 'auto'; }
+    lecteur.src = wavURI;
+    lecteur.currentTime = 0;
+    var p = lecteur.play();
+    if (p && p.then) {
+      p.then(function () { poserTrace(3, 'lecture démarrée · volume ' + lecteur.volume); })
+       .catch(function (e) { poserTrace(3, 'refus du navigateur : ' + (e && e.name)); });
+      return 'demande envoyée…';
+    }
+    return 'lecture lancée (sans promesse)';
+  }
+
+  function bipVoix(rang, prefixe) {
+    if (!('speechSynthesis' in window)) return 'synthèse vocale absente';
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance('bonjour, ceci est un essai de voix');
+      u.lang = 'fr-FR';
+      u.rate = 0.95;
+      var depart = Date.now();
+      var demarree = false;
+      var jalons = prefixe ? [prefixe] : [];
+      u.onstart = function () { demarree = true; jalons.push('start +' + (Date.now() - depart) + ' ms'); poserTrace(rang, jalons.join(' · ')); };
+      u.onend = function () {
+        jalons.push('end +' + (Date.now() - depart) + ' ms');
+        // Fini sans avoir commence : l'enonce a ete jete, pas rendu inaudible. Les deux se
+        // ressemblent dans le silence et n'ont rien a voir.
+        if (!demarree) jalons.push('JAMAIS DÉMARRÉE — énoncé jeté');
+        poserTrace(rang, jalons.join(' · '));
+      };
+      u.onerror = function (e) { jalons.push('erreur ' + (e && e.error)); poserTrace(rang, jalons.join(' · ')); };
+      window.speechSynthesis.speak(u);
+      return 'demande envoyée…';
+    } catch (e) {
+      return 'exception : ' + e;
+    }
+  }
+
+  function correctif() {
+    if (!aSession) return 'audioSession absente sur cet appareil — rien à déclarer';
+    var avant, apres;
+    try { avant = String(navigator.audioSession.type); } catch (e) { avant = '?'; }
+    try { navigator.audioSession.type = 'playback'; } catch (e) { return 'refus : ' + e; }
+    try { apres = String(navigator.audioSession.type); } catch (e) { apres = '?'; }
+    remplirReleve();
+    // Contexte NEUF : un contexte deja « interrupted » ne se releve pas d'un simple resume().
+    if (ctx) { try { ctx.close(); } catch (e) { /* no-op */ } ctx = null; }
+    var t = bipWebAudio(1);
+    declarationPrise = (apres === 'playback');
+    var note = (apres !== 'playback')
+      ? ' · DÉCLARATION REFUSÉE' + (dansCadre ? ' (page dans un cadre : épreuve sans valeur)' : '')
+      : '';
+    return avant + ' → ' + apres + note + ' · ' + t;
+  }
+
+  // ---------- 06 et 07 : la promotion par lecteur media ----------
+  // Amplitude d'un seul pas de quantification : un silence PARFAIT se fait mettre en pause par
+  // WebKit, qui n'a aucune raison de faire tourner un flux sans contenu -- releve du 2e passage,
+  // la boucle etait arretee au moment de l'epreuve 07. Non nul pour le moteur, inaudible a l'oreille.
+  function wavSilence(secondes) {
+    var taux = 8000, n = Math.floor(taux * secondes);
+    var buf = new ArrayBuffer(44 + n * 2), v = new DataView(buf);
+    function txt(o, t) { for (var i = 0; i < t.length; i++) v.setUint8(o + i, t.charCodeAt(i)); }
+    txt(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); txt(8, 'WAVE'); txt(12, 'fmt ');
+    v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+    v.setUint32(24, taux, true); v.setUint32(28, taux * 2, true);
+    v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+    txt(36, 'data'); v.setUint32(40, n * 2, true);
+    for (var i = 0; i < n; i++) {
+      v.setInt16(44 + i * 2, Math.round(Math.sin(2 * Math.PI * 30 * i / taux)), true); // -1, 0 ou 1
+    }
+    var oct = new Uint8Array(buf), bin = '';
+    for (var j = 0; j < oct.length; j++) bin += String.fromCharCode(oct[j]);
+    return 'data:audio/wav;base64,' + btoa(bin);
+  }
+
+  var declarationPrise = false;
+  var boucle = null;
+  function promotion() {
+    var avant = ctx ? ctx.state : 'aucun contexte';
+    function puisLeBip(note) {
+      if (ctx) { try { ctx.close(); } catch (e) { /* no-op */ } ctx = null; }
+      poserTrace(6, 'boucle ' + note + ' · contexte avant ' + avant + ' · ' + bipWebAudio(1));
+    }
+    if (!boucle) {
+      boucle = new Audio(wavSilence(2));
+      boucle.loop = true;
+      boucle.setAttribute('playsinline', '');
+      // La promotion ne vaut que tant que la boucle tourne : si le moteur la met en pause, elle
+      // repart, sinon l'epreuve 07 mesure une promotion qui n'existe plus.
+      boucle.addEventListener('pause', function () {
+        if (boucle) boucle.play()['catch'](function () {});
+      });
+    }
+    var pr;
+    try { pr = boucle.play(); } catch (e) { puisLeBip('refusée ' + e); return 'boucle refusée'; }
+    // Laisser la session basculer avant de mesurer : sinon on mesure l'etat d'avant.
+    if (pr && pr.then) {
+      pr.then(function () { setTimeout(function () { puisLeBip('en marche'); }, 400); },
+              function (e) { puisLeBip('refusée ' + (e && e.name)); });
+    } else {
+      setTimeout(function () { puisLeBip('en marche (sans promesse)'); }, 400);
+    }
+    return 'boucle lancée…';
+  }
+
+  function voixPromue() {
+    var etat = (boucle && !boucle.paused) ? 'boucle en marche' : 'BOUCLE ARRÊTÉE — refais 06';
+    return etat + ' · ' + bipVoix(7, etat);
+  }
+
+  function poserTrace(n, texte) {
+    traces[n] = texte;
+    var el = document.getElementById('trace-' + n);
+    if (el) el.textContent = texte;
+    majRapport();
+  }
+
+  // ---------- boutons ----------
+  var actions = {
+    webaudio: function () { poserTrace(2, bipWebAudio(1)); },
+    element:  function () { poserTrace(3, bipElement()); },
+    voix:     function () { poserTrace(4, bipVoix(4)); },
+    correctif: function () { poserTrace(5, correctif()); },
+    promotion: function () { poserTrace(6, promotion()); },
+    voixpromue: function () { poserTrace(7, voixPromue()); }
+  };
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-jouer]'), function (btn) {
+    btn.addEventListener('click', function () {
+      btn.classList.add('is-playing');
+      setTimeout(function () { btn.classList.remove('is-playing'); }, 1400);
+      actions[btn.getAttribute('data-jouer')]();
+    });
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-rep]'), function (btn) {
+    btn.addEventListener('click', function () {
+      var ep = btn.getAttribute('data-ep');
+      var rep = btn.getAttribute('data-rep');
+      reponses[ep] = rep;
+      Array.prototype.forEach.call(
+        document.querySelectorAll('[data-ep="' + ep + '"]'),
+        function (b) { b.setAttribute('aria-pressed', String(b === btn)); }
+      );
+      document.getElementById('ep-' + ep).setAttribute('data-verdict', rep);
+      majVerdict();
+      majRapport();
+    });
+  });
+
+  // ---------- verdict ----------
+  function majVerdict() {
+    var v = document.getElementById('verdict');
+    var titre = document.getElementById('verdict-titre');
+    var corps = document.getElementById('verdict-corps');
+    var r = reponses;
+    var etat = '', t, c;
+
+    if (!r[1] || !r[2]) {
+      etat = '';
+      t = 'Les épreuves ne sont pas faites';
+      c = 'Il faut au moins le témoin (01) et le bip Web Audio (02) pour conclure quoi que ce soit.';
+    } else if (r[1] === 'non') {
+      etat = 'coral';
+      t = 'C’est le téléphone qui coupe le média';
+      c = 'Ton mode silencieux inclut le canal média : aucune app, Milduna comprise, n’en sort. ' +
+          'À chercher du côté du profil « muet » du constructeur, du mode Ne pas déranger, ou d’un ' +
+          'volume média à zéro. Aucune ligne de code ne passe outre, et c’est heureux.';
+    } else if (r[2] === 'oui') {
+      etat = 'mint';
+      t = 'Le son sort, ici et maintenant';
+      c = 'Web Audio est audible en silencieux sur cet appareil. Si Milduna se tait quand même, ' +
+          'la cause est ailleurs que dans le mode silencieux — refais l’essai dans l’état exact ' +
+          'où l’app reste muette.';
+    } else if (r[3] === 'oui') {
+      var socle = 'Le lecteur média passe, Web Audio non — c’est la signature exacte du type de ' +
+                  'session « ambient » de WebKit. ';
+      if (r[5] === 'oui' && declarationPrise) {
+        etat = 'mint';
+        t = 'Déclarer « playback » suffit';
+        c = socle + 'La déclaration a été relue à « playback » et le silence s’est levé : le correctif ' +
+            'écrit dans Milduna est le bon, et la boucle ne servira à rien ici.';
+      } else if (r[5] === 'oui' && !declarationPrise) {
+        etat = 'mint';
+        t = 'C’est le lecteur média qui ouvre la sortie';
+        c = socle + 'L’épreuve 05 s’est fait entendre alors que la déclaration était refusée : ce n’est ' +
+            'donc pas elle qui opère, mais le lecteur média de l’épreuve 03, dont la promotion tenait ' +
+            'encore. Un contexte créé DERRIÈRE un lecteur média sort — c’est exactement ce que fait ' +
+            'le repli écrit dans Milduna. ' +
+            (r[7] === 'oui'
+              ? 'Et l’épreuve 07 dit que la voix suit.'
+              : (r[7] === 'non'
+                ? 'Reste la voix : 07 la donne muette — vérifie dans sa trace que la boucle tournait encore.'
+                : 'Reste à savoir si la voix suit : épreuves 06 puis 07.'));
+      } else if (r[6] === 'oui') {
+        etat = 'mint';
+        t = 'La boucle silencieuse lève le silence';
+        c = socle + 'La déclaration seule n’a pas suffi, la promotion par lecteur média oui. ' +
+            (r[7] === 'oui'
+              ? 'Et la voix suit : les deux chemins de son sont récupérés.'
+              : (r[7] === 'non'
+                ? 'Mais la voix reste muette : la promotion n’emmène que Web Audio, la leçon garde son bandeau.'
+                : 'Fais l’épreuve 07 : elle dira si la voix suit.'));
+      } else if (r[6] === 'non') {
+        etat = 'coral';
+        t = 'Aucun des deux correctifs ne passe ici';
+        c = socle + (dansCadre
+          ? 'Mais cette page tourne dans un cadre, et une page encadrée ne possède pas la session ' +
+            'audio : les épreuves 05 et 06 sont bridées par le cadre, pas par l’appareil. À refaire ' +
+            'depuis une page ouverte en propre avant de conclure quoi que ce soit.'
+          : 'Ni la déclaration, ni la promotion par lecteur média. C’est un vrai constat, et il ferme ' +
+            'les deux voies connues.');
+      } else {
+        etat = 'amber';
+        t = 'Session audio « ambient » : confirmé';
+        c = socle + (r[5] === 'non'
+          ? 'L’épreuve 05 n’a rien changé' +
+            (dansCadre ? ' — mais la page est dans un cadre, où la déclaration est refusée d’office. ' : '. ') +
+            'Passe à l’épreuve 06 : la promotion par lecteur média, elle, ne dépend d’aucune permission.'
+          : 'Fais les épreuves 05 puis 06 : elles disent lequel des deux correctifs tient.');
+      }
+    } else if (r[3] === 'non') {
+      etat = 'coral';
+      t = 'Rien ne sort, alors qu’une autre app y arrive';
+      c = 'Ni Web Audio ni le lecteur média. Deux chemins coupés d’un coup alors que le témoin ' +
+          'passe : ce n’est pas le type de session. Regarde le volume média pendant que cette page ' +
+          'joue, et si le navigateur n’est pas silencé pour cet onglet ou cette app.';
+    } else {
+      etat = 'amber';
+      t = 'Le bip Web Audio ne sort pas';
+      c = 'Fais l’épreuve 03 : c’est elle qui sépare « session audio mal typée » de ' +
+          '« canal média coupé ».';
+    }
+
+    v.setAttribute('data-etat', etat);
+    titre.textContent = t;
+    corps.textContent = c;
+  }
+
+  // ---------- rapport ----------
+  function majRapport() {
+    var l = [];
+    l.push('BANC AUDIO MILDUNA');
+    l.push('plateforme      : ' + plateforme());
+    l.push('audioSession    : ' + (aSession ? 'oui' : 'non'));
+    l.push('dans un cadre   : ' + (dansCadre ? 'OUI (05 sans valeur)' : 'non'));
+    if (aSession) {
+      var ty = '?';
+      try { ty = String(navigator.audioSession.type); } catch (e) {}
+      l.push('type de session : ' + ty);
+    }
+    l.push('ua              : ' + navigator.userAgent);
+    l.push('');
+    var noms = {
+      1: 'temoin autre app',
+      2: 'bip web audio   ',
+      3: 'bip <audio>     ',
+      4: 'voix de synthese',
+      5: 'apres playback  ',
+      6: 'apres la boucle ',
+      7: 'voix + boucle   '
+    };
+    for (var i = 1; i <= 7; i++) {
+      l.push('0' + i + ' ' + noms[i] + ' : ' + (reponses[i] === 'oui' ? 'ENTENDU' : reponses[i] === 'non' ? 'RIEN' : '(non repondu)'));
+      if (traces[i] && traces[i] !== '—') l.push('     trace : ' + traces[i]);
+    }
+    l.push('');
+    l.push('verdict : ' + document.getElementById('verdict-titre').textContent);
+    document.getElementById('rapport').value = l.join('\n');
+  }
+
+  document.getElementById('copier').addEventListener('click', function () {
+    var ta = document.getElementById('rapport');
+    var btn = this;
+    function fini(ok) {
+      btn.textContent = ok ? 'Copié' : 'Sélectionne et copie à la main';
+      setTimeout(function () { btn.textContent = 'Copier le rapport'; }, 2200);
+    }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(ta.value).then(function () { fini(true); }, function () {
+          ta.focus(); ta.select(); fini(false);
+        });
+        return;
+      }
+    } catch (e) {}
+    ta.focus(); ta.select(); fini(false);
+  });
+
+  majVerdict();
+  majRapport();
+})();
+</script>
