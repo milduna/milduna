@@ -345,7 +345,7 @@
   <header class="lede">
     <span class="eyebrow">Diagnostic · son en mode silencieux</span>
     <h1>Pourquoi Milduna se tait</h1>
-    <p class="sub">Sept épreuves à faire <strong>téléphone en silencieux</strong>, dans l'ordre.
+    <p class="sub">Huit épreuves à faire <strong>téléphone en silencieux</strong>, dans l'ordre.
       Chacune emprunte un chemin audio différent : c'est la comparaison entre elles, et non le
       résultat isolé de l'une, qui désigne la cause.</p>
   </header>
@@ -356,7 +356,7 @@
       <li>Mets le téléphone en silencieux, comme quand Milduna reste muette.</li>
       <li>Monte le volume <em>média</em> (pas la sonnerie) à mi-course.</li>
       <li>Enlève le casque et les écouteurs Bluetooth.</li>
-      <li>Ne change plus rien jusqu'à la fin des sept épreuves.</li>
+      <li>Ne change plus rien jusqu'à la fin des huit épreuves.</li>
     </ol>
   </section>
 
@@ -480,9 +480,27 @@
     </div>
   </section>
 
+  <section class="epreuve" id="ep-8" data-verdict="">
+    <div class="tete"><span class="rang">08</span>
+      <h3>La voix, après la déclaration seule</h3></div>
+    <p class="prouve">La dernière question ouverte. L'épreuve 04 a testé la voix <em>avant</em> la
+      déclaration, l'épreuve 07 <em>pendant</em> la boucle. Celle-ci la teste dans l'état exact de
+      l'app corrigée : « playback » déclaré, aucune boucle. Elle met la boucle en pause si elle
+      tourne encore.</p>
+    <button type="button" class="jouer" data-jouer="voixdeclaree">
+      <span class="onde" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      Déclarer, puis faire parler la voix
+    </button>
+    <p class="trace" id="trace-8">—</p>
+    <div class="reponse" role="group" aria-label="Résultat épreuve 8">
+      <button type="button" data-ep="8" data-rep="oui" aria-pressed="false">J'entends</button>
+      <button type="button" data-ep="8" data-rep="non" aria-pressed="false">Rien</button>
+    </div>
+  </section>
+
   <section class="verdict" id="verdict" data-etat="">
     <h2>Verdict</h2>
-    <p class="verdict-titre" id="verdict-titre">Les sept épreuves ne sont pas faites</p>
+    <p class="verdict-titre" id="verdict-titre">Les huit épreuves ne sont pas faites</p>
     <p class="verdict-corps" id="verdict-corps">Réponds à chaque épreuve : le verdict se calcule
       tout seul à partir de la combinaison.</p>
     <button type="button" class="copier" id="copier">Copier le rapport</button>
@@ -500,8 +518,8 @@
 (function () {
   'use strict';
 
-  var reponses = { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null };
-  var traces = { 2: '—', 3: '—', 4: '—', 5: '—', 6: '—', 7: '—' };
+  var reponses = { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null };
+  var traces = { 2: '—', 3: '—', 4: '—', 5: '—', 6: '—', 7: '—', 8: '—' };
   // Une page dans un cadre d'une autre origine ne partage pas la session audio de la page hote :
   // l'epreuve 05 y est sans valeur, et il faut le dire plutot que de conclure a tort.
   var dansCadre = (function () { try { return window.top !== window.self; } catch (e) { return true; } })();
@@ -694,6 +712,7 @@
 
   var declarationPrise = false;
   var boucle = null;
+  var boucleArretVoulu = false;
   function promotion() {
     var avant = ctx ? ctx.state : 'aucun contexte';
     function puisLeBip(note) {
@@ -707,7 +726,9 @@
       // La promotion ne vaut que tant que la boucle tourne : si le moteur la met en pause, elle
       // repart, sinon l'epreuve 07 mesure une promotion qui n'existe plus.
       boucle.addEventListener('pause', function () {
-        if (boucle) boucle.play()['catch'](function () {});
+        // Sauf arret voulu : l'epreuve 08 a besoin d'une boucle vraiment silencieuse, pas d'une
+        // boucle qui se rallume derriere elle.
+        if (boucle && !boucleArretVoulu) boucle.play()['catch'](function () {});
       });
     }
     var pr;
@@ -727,6 +748,23 @@
     return etat + ' · ' + bipVoix(7, etat);
   }
 
+  function voixDeclaree() {
+    var ty = 'API absente';
+    try {
+      if (navigator.audioSession) {
+        navigator.audioSession.type = 'playback';
+        ty = String(navigator.audioSession.type);
+      }
+    } catch (e) { ty = 'refus'; }
+    remplirReleve();
+    var note = 'session ' + ty;
+    if (boucle && !boucle.paused) {
+      boucleArretVoulu = true;
+      try { boucle.pause(); note += ' · boucle arrêtée'; } catch (e) { /* no-op */ }
+    }
+    return bipVoix(8, note);
+  }
+
   function poserTrace(n, texte) {
     traces[n] = texte;
     var el = document.getElementById('trace-' + n);
@@ -741,7 +779,8 @@
     voix:     function () { poserTrace(4, bipVoix(4)); },
     correctif: function () { poserTrace(5, correctif()); },
     promotion: function () { poserTrace(6, promotion()); },
-    voixpromue: function () { poserTrace(7, voixPromue()); }
+    voixpromue: function () { poserTrace(7, voixPromue()); },
+    voixdeclaree: function () { poserTrace(8, voixDeclaree()); }
   };
 
   Array.prototype.forEach.call(document.querySelectorAll('[data-jouer]'), function (btn) {
@@ -798,7 +837,13 @@
         etat = 'mint';
         t = 'Déclarer « playback » suffit';
         c = socle + 'La déclaration a été relue à « playback » et le silence s’est levé : le correctif ' +
-            'écrit dans Milduna est le bon, et la boucle ne servira à rien ici.';
+            'écrit dans Milduna est le bon pour les bips. ' +
+            (r[8] === 'oui'
+              ? 'Et l’épreuve 08 dit que la voix suit : tout est récupéré, le bandeau muet peut partir.'
+              : (r[8] === 'non'
+                ? 'Mais l’épreuve 08 laisse la voix muette : elle a sa propre session, que la page ne ' +
+                  'gouverne pas. La leçon garde son bandeau.'
+                : 'Reste la voix : fais l’épreuve 08, elle la teste dans l’état exact de l’app corrigée.'));
       } else if (r[5] === 'oui' && !declarationPrise) {
         etat = 'mint';
         t = 'C’est le lecteur média qui ouvre la sortie';
@@ -806,11 +851,11 @@
             'donc pas elle qui opère, mais le lecteur média de l’épreuve 03, dont la promotion tenait ' +
             'encore. Un contexte créé DERRIÈRE un lecteur média sort — c’est exactement ce que fait ' +
             'le repli écrit dans Milduna. ' +
-            (r[7] === 'oui'
-              ? 'Et l’épreuve 07 dit que la voix suit.'
-              : (r[7] === 'non'
-                ? 'Reste la voix : 07 la donne muette — vérifie dans sa trace que la boucle tournait encore.'
-                : 'Reste à savoir si la voix suit : épreuves 06 puis 07.'));
+            (r[8] === 'oui'
+              ? 'Et l’épreuve 08 dit que la voix suit.'
+              : (r[8] === 'non'
+                ? 'La voix, elle, reste muette : elle a sa propre session, que la page ne gouverne pas.'
+                : 'Reste la voix : fais l’épreuve 08.'));
       } else if (r[6] === 'oui') {
         etat = 'mint';
         t = 'La boucle silencieuse lève le silence';
@@ -877,9 +922,10 @@
       4: 'voix de synthese',
       5: 'apres playback  ',
       6: 'apres la boucle ',
-      7: 'voix + boucle   '
+      7: 'voix + boucle   ',
+      8: 'voix + playback '
     };
-    for (var i = 1; i <= 7; i++) {
+    for (var i = 1; i <= 8; i++) {
       l.push('0' + i + ' ' + noms[i] + ' : ' + (reponses[i] === 'oui' ? 'ENTENDU' : reponses[i] === 'non' ? 'RIEN' : '(non repondu)'));
       if (traces[i] && traces[i] !== '—') l.push('     trace : ' + traces[i]);
     }
