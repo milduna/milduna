@@ -64,8 +64,9 @@
       <li>Your account (email address, sign-in credentials)</li>
       <li>Your saved progress (words learned, streaks, unlocked groups)</li>
       <li>The link between your account and your past purchases</li>
+      <li>Your invitation code and the record of any code you used</li>
     </ul>
-    <p class="confirm-list" style="color:var(--ink-soft);">This does not cancel or refund your Google Play purchases — for a refund, contact Google Play support. Data stored only on your device (guest mode) is not affected by this page.</p>
+    <p class="confirm-list" style="color:var(--ink-soft);"><strong>This does not cancel your subscription.</strong> If you have an active <em>Full access</em> subscription, cancel it first from your Apple or Google account, otherwise billing carries on after your data is gone. Deleting your account refunds nothing either — for a refund, contact Apple or Google Play support. Data stored only on your device (guest mode) is not affected by this page.</p>
     <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;">
       <button id="btn-cancel" class="btn btn-secondary">Cancel</button>
       <button id="btn-delete" class="btn btn-danger">Permanently delete my account</button>
@@ -107,7 +108,7 @@ import {
   EmailAuthProvider, deleteUser, onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 import {
-  getFirestore, doc, deleteDoc
+  getFirestore, doc, getDoc, getDocs, collection, deleteDoc
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -181,7 +182,36 @@ document.getElementById('btn-cancel').addEventListener('click', () => {
   auth.signOut();
 });
 
+// Referral records live OUTSIDE users/{uid}: invites/{code} carries the owner's uid, and
+// invites/{code}/uses/{uid} records that this account redeemed someone's code. Deleting the
+// progress document does not carry them away, so this page removes them too — the privacy
+// policy promises the account takes them with it.
+// Both codes are read from the progress document, which saves re-deriving the hash here.
+// Every step is best-effort: a rule refusing one deletion must never block the account deletion
+// itself, which is the user's right.
+async function purgeInvites(uid) {
+  let inv = null;
+  try {
+    const snap = await getDoc(doc(db, 'users', uid));
+    const data = snap.exists() ? snap.data() : null;
+    inv = data ? ((data.shared && data.shared.invite) || data.invite || null) : null;
+  } catch (err) { return; }
+  if (!inv) return;
+  if (inv.code) {
+    // Subcollection first: Firestore does not cascade, so deleting the parent would leave it orphaned.
+    try {
+      const uses = await getDocs(collection(db, 'invites', inv.code, 'uses'));
+      await Promise.all(uses.docs.map(d => deleteDoc(d.ref).catch(() => {})));
+    } catch (err) { /* rules refused the listing: carry on */ }
+    await deleteDoc(doc(db, 'invites', inv.code)).catch(() => {});
+  }
+  if (inv.redeemedCode) {
+    await deleteDoc(doc(db, 'invites', inv.redeemedCode, 'uses', uid)).catch(() => {});
+  }
+}
+
 async function performDeletion(user) {
+  await purgeInvites(user.uid);                                 // before users/{uid}: that is where the codes are read
   await deleteDoc(doc(db, 'users', user.uid)).catch(() => {}); // best-effort: proceed even if no Firestore doc existed
   await deleteUser(user);
   showView('success');
