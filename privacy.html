@@ -20,7 +20,11 @@
   <span class="updated">Version 2.0 — Last updated: August 24, 2026</span></p>
 
   <div class="card">
-    <strong>In short:</strong> Milduna works without an account — in guest mode your data never leaves your device. If you create an account, we store your learning progress in the cloud (Firebase) so you find it again on every device. The app may show ads (Google AdMob), and offers a one-off purchase and auto-renewing subscriptions, sold by Apple or Google and managed through RevenueCat. Pronunciation audio is streamed from Cloudflare. <strong>We never sell your data</strong>, and we never send your learning progress to advertisers.
+    <strong>In short:</strong> Milduna works without an account &mdash; in guest mode your data never
+    leaves your device. If you create an account, we store your learning progress in the cloud
+    (Firebase) so you find it again on every device. The App is free and shows advertising (Google
+    AdMob); it sells nothing. Pronunciation audio is streamed from Cloudflare.
+    <strong>We never sell your data</strong>, and we never send your learning progress to advertisers.
   </div>
 
   <h2>1. Publisher and data controller</h2>
@@ -54,12 +58,8 @@
   <p>If you share an invitation code, we store two minimal records: the code and the account identifier that owns it, and, for each person who enters that code, the fact that they did and when. The code itself is derived from the account identifier through a SHA-256 hash and cannot be reversed back to it.</p>
   <p>No name, email address or learning progress passes through these records. They exist only so a referral reward can be granted, and they are erased when the account is deleted.</p>
 
-  <h3>2.5 Purchases and subscriptions — Apple, Google and RevenueCat, Inc.</h3>
-  <p>Payment is handled entirely by the store you bought from — the <strong>App Store</strong> (Apple) on iOS, <strong>Google Play Billing</strong> on Android. <strong>We never see and never receive your payment details.</strong></p>
-  <p>So that your purchases can be restored on your other devices, we use <strong>RevenueCat</strong>, which receives: the purchase and transaction identifiers issued by the store, the purchase and renewal history for this app, the status of your entitlements (ad-free, full access, free trial), and your Firebase UID so the two can be linked. RevenueCat also collects standard technical identifiers (device model, operating system, app version, country) for receipt validation and fraud prevention.</p>
-
-  <h3>2.6 Advertising — Google AdMob</h3>
-  <p>Unless you have bought <em>Ad-free</em> or hold an active <em>Full access</em> subscription, the app may show ads served by <strong>Google AdMob</strong>. Depending on your region and your choices, AdMob may collect:</p>
+  <h3>2.5 Advertising — Google AdMob</h3>
+  <p>The App shows ads served by <strong>Google AdMob</strong>. Depending on your region and your choices, AdMob may collect:</p>
   <ul>
     <li>a resettable advertising identifier — the <strong>AAID</strong> on Android, the <strong>IDFA</strong> on iOS;</li>
     <li>ad interaction data (impressions, clicks, whether a rewarded ad was watched through);</li>
@@ -67,26 +67,25 @@
   </ul>
   <p><strong>In the EEA, the UK and Switzerland</strong>, the app shows a Google-certified consent screen (CMP) on first launch, before any ad is requested. If you decline, ads may still appear but are non-personalised. You can change your answer at any time from <em>Settings → Ad preferences</em> inside the app.</p>
   <p><strong>On iOS</strong>, personalised advertising also requires your permission through Apple's App Tracking Transparency prompt. If you decline it, the IDFA is not accessible to AdMob and advertising stays non-personalised.</p>
-  <p>AdMob has no access to your Milduna account, your learning progress or your purchase history. See the <a href="ads-consent.html">Advertising &amp; Consent page</a> for details.</p>
+  <p>AdMob has no access to your Milduna account or your learning progress. See the <a href="ads-consent.html">Advertising &amp; Consent page</a> for details.</p>
 
-  <h3>2.7 Pronunciation audio — Cloudflare, Inc.</h3>
+  <h3>2.6 Pronunciation audio — Cloudflare, Inc.</h3>
   <p>Pronunciation clips are pre-generated files stored in <strong>Cloudflare R2</strong> and delivered by a <strong>Cloudflare Worker</strong>. Playing a word sends a request to Cloudflare, which — like any web server — receives your IP address and standard technical request data (date, user agent, file requested) and keeps them for a limited period for security, anti-abuse and delivery purposes.</p>
   <p>No account identifier, no cookie and no progress data is attached to these requests: they cannot be tied back to your account.</p>
 
-  <h3>2.8 Hosting of the web version and of these documents</h3>
+  <h3>2.7 Hosting of the web version and of these documents</h3>
   <p>The web version of the app is hosted on <strong>Cloudflare Pages</strong>, and the legal documents you are reading on <strong>GitHub Pages</strong> (GitHub, Inc.). Both receive your IP address and standard technical request data when a page loads, and keep them for a limited period for security purposes. Neither places advertising or analytics cookies for us — <strong>we run no audience-measurement or analytics tool</strong>, on the web or in the app.</p>
 
-  <h3>2.9 Reminders</h3>
+  <h3>2.8 Reminders</h3>
   <p>If you enable them, study reminders are scheduled and displayed <strong>by your device itself</strong>. No message passes through a server, and we hold no notification token. You can withdraw the permission at any time in your system settings.</p>
 
-  <h3>2.10 Technical and diagnostic data</h3>
+  <h3>2.9 Technical and diagnostic data</h3>
   <p>Like any app built on Google, Apple and Firebase SDKs, standard technical data may be collected automatically for operation and diagnostics: app version, language, device type, crash reports. This is handled by those providers under their own privacy policies.</p>
 
   <h2>3. Why we use this data, and on what legal basis</h2>
   <table>
     <tr><th>Purpose</th><th>Data used</th><th>Legal basis (GDPR)</th></tr>
     <tr><td>Running the app, saving and restoring your progress</td><td>Account, UID, progress</td><td>Performance of the contract (Art. 6.1.b)</td></tr>
-    <tr><td>Selling, restoring and renewing purchases</td><td>Purchase identifiers, entitlements, UID</td><td>Performance of the contract (Art. 6.1.b)</td></tr>
     <tr><td>Delivering pronunciation audio and web pages</td><td>IP address, technical request data</td><td>Performance of the contract (Art. 6.1.b)</td></tr>
     <tr><td>Granting referral rewards</td><td>Invitation code, account identifier</td><td>Performance of the contract (Art. 6.1.b)</td></tr>
     <tr><td>Security, fraud and abuse prevention, service improvement</td><td>Technical data, server logs</td><td>Legitimate interest (Art. 6.1.f)</td></tr>
@@ -100,8 +99,7 @@
   <table>
     <tr><th>Recipient</th><th>Role</th><th>Location</th></tr>
     <tr><td>Google Ireland Ltd / Google LLC</td><td>Firebase Authentication, Cloud Firestore, AdMob</td><td>EU and United States</td></tr>
-    <tr><td>Apple Inc. / Apple Distribution International Ltd</td><td>Sign in with Apple, App Store billing <span class="badge badge-violet">iOS</span></td><td>EU and United States</td></tr>
-    <tr><td>RevenueCat, Inc.</td><td>Purchase and subscription management</td><td>United States</td></tr>
+    <tr><td>Apple Inc. / Apple Distribution International Ltd</td><td>Sign in with Apple <span class="badge badge-violet">iOS</span></td><td>EU and United States</td></tr>
     <tr><td>Cloudflare, Inc.</td><td>Audio delivery (R2 + Workers), web hosting (Pages)</td><td>Global network, incl. United States</td></tr>
     <tr><td>GitHub, Inc.</td><td>Hosting of these legal documents</td><td>United States</td></tr>
   </table>
@@ -112,7 +110,6 @@
   <ul>
     <li><strong>Account and progress:</strong> for as long as your account exists. Deleting your account erases them immediately (see section 6).</li>
     <li><strong>Guest data:</strong> stays on your device until you clear it or uninstall the app — we hold no copy.</li>
-    <li><strong>Purchase and subscription records:</strong> kept by Apple, Google and RevenueCat for the periods their own policies and accounting law require, independently of your Milduna account.</li>
     <li><strong>Technical server logs</strong> (Cloudflare, GitHub, Google): short retention periods set by each provider, for security purposes.</li>
   </ul>
 
