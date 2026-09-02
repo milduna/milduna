@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Depuis le 2 septembre 2026 ces documents vivent sur milduna.com ; cette copie
+     ne sert plus qu a rediriger, et a rester lisible par les versions 1.0 de l app. -->
+<meta http-equiv="refresh" content="0; url=https://milduna.com/legal/privacy">
+<link rel="canonical" href="https://milduna.com/legal/privacy">
+
 <title>Privacy Policy — Milduna</title>
 <meta name="description" content="Privacy Policy for the Milduna app: what data we collect, why, who we share it with, and your rights.">
 <link rel="icon" href="favicon.ico" sizes="any">
@@ -17,20 +22,22 @@
 
   <h1>Privacy Policy</h1>
   <p class="subtitle">Milduna — vocabulary learning app for Android, iOS and the web.<br>
-  <span class="updated">Version 2.0 — Last updated: August 24, 2026</span></p>
+  <span class="updated">Version 2.1 — Last updated: September 2, 2026</span></p>
 
   <div class="card">
     <strong>In short:</strong> Milduna works without an account &mdash; in guest mode your data never
     leaves your device. If you create an account, we store your learning progress in the cloud
     (Firebase) so you find it again on every device. The App is free and shows advertising (Google
-    AdMob); it sells nothing. Pronunciation audio is streamed from Cloudflare.
+    AdMob); it sells nothing. Pronunciation audio is streamed from Cloudflare. Anonymous usage
+    statistics (PostHog, hosted in the EU) are collected <strong>only if you opt in</strong>, and
+    never identify you.
     <strong>We never sell your data</strong>, and we never send your learning progress to advertisers.
   </div>
 
   <h2>1. Publisher and data controller</h2>
   <p>
     <strong>Milduna</strong> — published by Amaury PASCHER.<br>
-    Contact for any privacy question: <a href="mailto:contact@milduna.com">contact@milduna.com</a>
+    Contact for any privacy question: <!--email_off--><a href="mailto:contact@milduna.com">contact@milduna.com</a><!--/email_off-->
   </p>
   <p>The full publisher identity (legal form, registered address, registration number) is set out in the <a href="legal.html">Legal Notice</a>.</p>
   <p>No Data Protection Officer has been appointed: the processing described below does not meet the conditions of Article 37 GDPR.</p>
@@ -74,12 +81,16 @@
   <p>No account identifier, no cookie and no progress data is attached to these requests: they cannot be tied back to your account.</p>
 
   <h3>2.7 Hosting of the web version and of these documents</h3>
-  <p>The web version of the app is hosted on <strong>Cloudflare Pages</strong>, and the legal documents you are reading on <strong>GitHub Pages</strong> (GitHub, Inc.). Both receive your IP address and standard technical request data when a page loads, and keep them for a limited period for security purposes. Neither places advertising or analytics cookies for us — <strong>we run no audience-measurement or analytics tool</strong>, on the web or in the app.</p>
+  <p>The web version of the app and the legal documents you are reading are hosted on <strong>Cloudflare Pages</strong> (Cloudflare, Inc.), at <strong>milduna.com</strong>. Cloudflare receives your IP address and standard technical request data when a page loads, and keeps them for a limited period for security purposes. It places no advertising or analytics cookie for us. The only measurement tool we use is the optional product analytics described in section 2.8 — <strong>off by default</strong>.</p>
 
-  <h3>2.8 Reminders</h3>
+  <h3>2.8 Product analytics — PostHog (optional, with your consent)</h3>
+  <p>To understand which features are actually used and improve the app, Milduna can send <strong>anonymous usage statistics</strong> to <strong>PostHog</strong> (PostHog, Inc.), using its <strong>EU Cloud hosted in Frankfurt, Germany</strong>. Nothing is sent until you accept the one-time request shown in the app, and you can switch it off at any time from <em>Account → Anonymous statistics</em>.</p>
+  <p>When enabled, we record product events such as “a lesson round was completed”, “a word reached mastered status” or “the notebook was opened”, together with technical context (language pair, platform, app style). These events are <strong>never linked to your name, your e-mail address or your account identifier</strong>: they are grouped under a random identifier generated on your device, which we do not connect to your account. No word you type, no individual answer and no advertising identifier is sent. Session recording and automatic click capture are disabled.</p>
+
+  <h3>2.9 Reminders</h3>
   <p>If you enable them, study reminders are scheduled and displayed <strong>by your device itself</strong>. No message passes through a server, and we hold no notification token. You can withdraw the permission at any time in your system settings.</p>
 
-  <h3>2.9 Technical and diagnostic data</h3>
+  <h3>2.10 Technical and diagnostic data</h3>
   <p>Like any app built on Google, Apple and Firebase SDKs, standard technical data may be collected automatically for operation and diagnostics: app version, language, device type, crash reports. This is handled by those providers under their own privacy policies.</p>
 
   <h2>3. Why we use this data, and on what legal basis</h2>
@@ -91,8 +102,9 @@
     <tr><td>Security, fraud and abuse prevention, service improvement</td><td>Technical data, server logs</td><td>Legitimate interest (Art. 6.1.f)</td></tr>
     <tr><td>Non-personalised advertising</td><td>Technical data, ad interactions</td><td>Legitimate interest (Art. 6.1.f)</td></tr>
     <tr><td><strong>Personalised advertising</strong></td><td>Advertising identifier (AAID / IDFA)</td><td><strong>Your consent</strong> (Art. 6.1.a), freely withdrawable</td></tr>
+    <tr><td><strong>Anonymous product analytics</strong> (PostHog)</td><td>Usage events, language pair, platform, app style — random device identifier</td><td><strong>Your consent</strong> (Art. 6.1.a), off by default, freely withdrawable</td></tr>
   </table>
-  <p>Declining personalised advertising costs you nothing: the whole app stays available.</p>
+  <p>Declining personalised advertising or anonymous statistics costs you nothing: the whole app stays available.</p>
 
   <h2>4. Who we share it with</h2>
   <p><strong>We do not sell your data, and we share none of it for another company's own purposes.</strong> It is passed only to the processors and partners strictly required to run the service:</p>
@@ -100,8 +112,8 @@
     <tr><th>Recipient</th><th>Role</th><th>Location</th></tr>
     <tr><td>Google Ireland Ltd / Google LLC</td><td>Firebase Authentication, Cloud Firestore, AdMob</td><td>EU and United States</td></tr>
     <tr><td>Apple Inc. / Apple Distribution International Ltd</td><td>Sign in with Apple <span class="badge badge-violet">iOS</span></td><td>EU and United States</td></tr>
-    <tr><td>Cloudflare, Inc.</td><td>Audio delivery (R2 + Workers), web hosting (Pages)</td><td>Global network, incl. United States</td></tr>
-    <tr><td>GitHub, Inc.</td><td>Hosting of these legal documents</td><td>United States</td></tr>
+    <tr><td>Cloudflare, Inc.</td><td>Audio delivery (R2 + Workers), hosting of the web app and of these documents (Pages)</td><td>Global network, incl. United States</td></tr>
+    <tr><td>PostHog, Inc. — EU Cloud</td><td>Anonymous product analytics (opt-in)</td><td>European Union (Frankfurt, Germany)</td></tr>
   </table>
   <p>Some of these providers are established outside the European Union. Those transfers are governed by the <strong>standard contractual clauses</strong> approved by the European Commission and, where applicable, by the EU–US Data Privacy Framework, in accordance with Chapter V of the GDPR.</p>
   <p>We may also disclose data where the law requires it — on a valid request from a judicial or administrative authority.</p>
@@ -110,7 +122,8 @@
   <ul>
     <li><strong>Account and progress:</strong> for as long as your account exists. Deleting your account erases them immediately (see section 6).</li>
     <li><strong>Guest data:</strong> stays on your device until you clear it or uninstall the app — we hold no copy.</li>
-    <li><strong>Technical server logs</strong> (Cloudflare, GitHub, Google): short retention periods set by each provider, for security purposes.</li>
+    <li><strong>Technical server logs</strong> (Cloudflare, Google): short retention periods set by each provider, for security purposes.</li>
+    <li><strong>Anonymous analytics events</strong> (PostHog, opt-in): stored on PostHog’s EU infrastructure and never linked to your account. Withdrawing consent — in <em>Account → Anonymous statistics</em> — stops any further collection immediately.</li>
   </ul>
 
   <h2>6. Your rights</h2>
@@ -121,9 +134,9 @@
     <li><strong>Erasure:</strong> delete your account and everything attached to it — immediately and without asking us, from <em>Settings → Delete my account</em> in the app, or from the <a href="account-deletion.html">account deletion page</a>, which needs no installation.</li>
     <li><strong>Portability:</strong> receive your data in a structured, machine-readable format.</li>
     <li><strong>Restriction and objection:</strong> including objecting to processing based on our legitimate interest.</li>
-    <li><strong>Withdrawal of consent:</strong> at any time, in particular for personalised advertising, from <em>Settings → Ad preferences</em>. Withdrawal does not affect processing carried out before it.</li>
+    <li><strong>Withdrawal of consent:</strong> at any time — for personalised advertising from <em>Settings → Ad preferences</em>, for anonymous statistics from <em>Account → Anonymous statistics</em>. Withdrawal does not affect processing carried out before it.</li>
   </ul>
-  <p>To exercise a right other than self-service deletion, write to <a href="mailto:contact@milduna.com">contact@milduna.com</a>. We answer within one month. You may also lodge a complaint with your national supervisory authority — in France, the <strong>CNIL</strong> (<a href="https://www.cnil.fr" target="_blank" rel="noopener">www.cnil.fr</a>).</p>
+  <p>To exercise a right other than self-service deletion, write to <!--email_off--><a href="mailto:contact@milduna.com">contact@milduna.com</a><!--/email_off-->. We answer within one month. You may also lodge a complaint with your national supervisory authority — in France, the <strong>CNIL</strong> (<a href="https://www.cnil.fr" target="_blank" rel="noopener">www.cnil.fr</a>).</p>
 
   <h2>7. Children</h2>
   <p>Milduna is not directed at children under 13 (or the higher minimum age applicable in your country), and we do not knowingly collect their data without appropriate parental consent. If you believe a child has given us data without such consent, write to us and we will delete it.</p>
@@ -136,7 +149,7 @@
   <p>This policy may change as the service or the law evolves. The version number and date at the top of the page always reflect the current text. If a change materially affects your rights or the way your data is used, we will tell you inside the app before it takes effect.</p>
 
   <h2>10. Contact</h2>
-  <p>Any question about this policy or your personal data: <a href="mailto:contact@milduna.com">contact@milduna.com</a></p>
+  <p>Any question about this policy or your personal data: <!--email_off--><a href="mailto:contact@milduna.com">contact@milduna.com</a><!--/email_off--></p>
 
   <div class="footer-links">
     <a href="index.html">Home</a>
